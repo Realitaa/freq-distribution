@@ -28,3 +28,30 @@
   max-height: 0;
   overflow: hidden;
 }
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.4s ease;
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid white;
+  /* alternate border-color for four different sides */
+  border-color: white transparent white transparent;
+  animation: rotate 1.5s linear infinite;
+}
+
+@keyframes rotate{
+  100% {
+    transform: rotate(360deg);
+  }
+}

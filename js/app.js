@@ -27,6 +27,7 @@ function spa() {
         stats: null,
         frequencyTable: null,
         interpretation: null,
+        isLoading: false,
         isProcessing: false,
 
         // Inisialisasi aplikasi SPA
@@ -93,7 +94,13 @@ function spa() {
           this.parsedData = parseNumericInput(this.rawInput);
         },
 
-        startProcess() {
+        async startProcess() {
+          this.isLoading = true;
+
+          // beri waktu agar loading terlihat
+          await this.delay(1000);
+          this.isLoading = false;
+
           // parsing ulang sebagai sumber kebenaran
           const data = parseNumericInput(this.rawInput);
 
@@ -141,6 +148,11 @@ function spa() {
 
           this.interpretation = interpretFrequency(frequencyTable);
           this.isProcessing = true;
+        },
+
+        // Fungsi delay (untuk simulasi proses asynchronous)
+        delay(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
         },
 
         resetPlayground() {

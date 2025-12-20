@@ -143,11 +143,16 @@
               <div class="row g-2">
                 <div class="col-12 col-md-auto">
                   <button
-                    class="btn btn-primary w-100"
-                    :disabled="!isDataValid"
+                    class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
+                    :disabled="!isDataValid || isLoading"
                     @click="startProcess()"
                   >
-                    Mulai Menghitung
+                    <span>Mulai Menghitung</span>
+
+                    <span
+                      x-show="isLoading"
+                      class="spinner"
+                    ></span>
                   </button>
                 </div>
 
@@ -186,7 +191,9 @@
       <!-- Statistik Awal -->
       <div
         x-show="stats"
-        class="card mt-4"
+        x-transition
+        class="card mt-4 fade-up"
+        :class="{ 'show': stats }"
       >
         <div class="card-body">
           <h5 class="fw-semibold mb-3">Analisis Data Awal</h5>
