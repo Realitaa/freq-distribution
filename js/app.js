@@ -13,6 +13,7 @@ function spa() {
         parsedData: [],
         errorMessage: '',
         stats: null,
+        frequencyTable: null,
 
         // Inisialisasi aplikasi SPA
         init() {
@@ -108,6 +109,16 @@ function spa() {
 
           // Simpan ke state
           this.stats.interval = interval;
+
+          const frequencyTable = buildFrequencyTable(
+            data,
+            minVal,
+            interval,
+            k
+          );
+
+          // simpan ke state
+          this.frequencyTable = frequencyTable;
         },
 
         showError(message) {
