@@ -1,0 +1,14 @@
+/* Landing Page Background */
+.landing-bg {
+  background: radial-gradient(
+    125% 125% at 50% 10%,
+    #ffffff 40%,
+    #6366f1 100%
+  );
+}
+
+/* Optional: bikin teks lebih enak dibaca */
+.landing-wrapper h1,
+.landing-wrapper p {
+  color: #111827;
+}
