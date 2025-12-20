@@ -45,3 +45,14 @@ function range(data) {
 function sturges(n) {
   return Math.ceil(1 + 3.322 * Math.log10(n));
 }
+
+/**
+ * Menghitung lebar interval kelas
+ * interval = ceil(range / k)
+ * @param {number} range
+ * @param {number} k
+ * @returns {number}
+ */
+function intervalWidth(range, k) {
+  return Math.ceil(range / k);
+}

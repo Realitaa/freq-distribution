@@ -102,6 +102,12 @@ function spa() {
 
           // Simpan ke state
           this.stats.k = k;
+
+          // Hitung lebar interval kelas
+          const interval = intervalWidth(rangeVal, k);
+
+          // Simpan ke state
+          this.stats.interval = interval;
         },
 
         showError(message) {
