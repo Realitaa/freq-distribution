@@ -5,10 +5,13 @@ function spa() {
 
         // Dataset contoh
         sampleDatasets: sampleDatasets,
+
+        // Playground section state
         subject: '',
         rawInput: '',
         minData: MIN_DATA_COUNT,
         parsedData: [],
+        errorMessage: '',
 
         // Inisialisasi aplikasi SPA
         init() {
@@ -68,5 +71,44 @@ function spa() {
         parseInput() {
           this.parsedData = parseNumericInput(this.rawInput);
         },
+
+        startProcess() {
+          // parsing ulang sebagai sumber kebenaran
+          const data = parseNumericInput(this.rawInput);
+
+          const result = validateNumericData(data, this.minData);
+          if (!result.valid) {
+            this.showError(result.message);
+            return;
+          }
+
+          // valid → lanjut ke tahap berikutnya (statistik/algoritma)
+          this.errorMessage = '';
+          this.parsedData = data;
+
+          // placeholder: nanti trigger analisis/statistik
+          // this.goTo('process') atau tampilkan section proses
+        },
+
+        showError(message) {
+          Toastify({
+            text: message,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+              background: getCssVar('--bs-danger'),
+            }
+          }).showToast();
+        },
+
+        // Debug: trigger error toast
+        // Jalankan kode ini di console DevTools untuk mengetes fungsi toast:
+        // spa().triggerErrorTest()
+        triggerErrorTest() {
+          this.showError('Contoh pesan error validasi.');
+        },
+
     }
 }
