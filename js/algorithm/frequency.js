@@ -36,3 +36,31 @@ function buildFrequencyTable(data, minVal, interval, k) {
 
   return table;
 }
+
+/**
+ * Membuat interpretasi sederhana dari tabel distribusi frekuensi
+ * @param {Array<{lower:number, upper:number, freq:number}>} table
+ * @returns {{
+ *   modalClass: object,
+ *   maxClass: object,
+ *   minClass: object
+ * }}
+ */
+function interpretFrequency(table) {
+  let maxClass = table[0];
+  let minClass = table[0];
+
+  table.forEach(row => {
+    if (row.freq > maxClass.freq) {
+      maxClass = row;
+    }
+    if (row.freq < minClass.freq) {
+      minClass = row;
+    }
+  });
+
+  return {
+    maxClass,
+    minClass
+  };
+}

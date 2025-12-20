@@ -14,6 +14,8 @@ function spa() {
         errorMessage: '',
         stats: null,
         frequencyTable: null,
+        interpretation: null,
+        isProcessing: false,
 
         // Inisialisasi aplikasi SPA
         init() {
@@ -119,6 +121,27 @@ function spa() {
 
           // simpan ke state
           this.frequencyTable = frequencyTable;
+
+          this.interpretation = interpretFrequency(frequencyTable);
+          this.isProcessing = true;
+        },
+
+        resetPlayground() {
+          // input
+          this.subject = '';
+          this.rawInput = '';
+          this.parsedData = [];
+
+          // hasil proses
+          this.stats = null;
+          this.frequencyTable = null;
+          this.interpretation = null;
+
+          // state UI
+          this.isProcessing = false;
+
+          // opsional: kembali ke atas halaman
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         },
 
         showError(message) {

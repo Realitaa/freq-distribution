@@ -70,8 +70,7 @@
           class="btn btn-sm btn-outline-secondary mb-3"
           @click="
             goTo('');
-            subject = '';
-            rawInput = '';
+            resetPlayground();
           "
         >
           <i class="bi bi-arrow-left"></i>
@@ -148,13 +147,23 @@
               Gunakan Dataset Contoh
             </button>
 
-            <button
-              class="btn btn-primary"
-              :disabled="!isDataValid"
-              @click="startProcess()"
-            >
-              Mulai Menghitung
-            </button>
+            <div>
+              <button
+                class="btn btn-primary"
+                :disabled="!isDataValid"
+                @click="startProcess()"
+              >
+                Mulai Menghitung
+              </button>
+
+              <button
+                  class="btn btn-outline-danger"
+                  x-show="isProcessing"
+                  @click="resetPlayground()"
+                >
+                  Reset Playground
+                </button>
+            </div>
           </div>
 
         </div>
@@ -204,6 +213,32 @@
               </template>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Interpretasi Hasil -->
+      <div
+        x-show="interpretation"
+        class="card mt-4"
+      >
+        <div class="card-body">
+          <h5 class="fw-semibold mb-3">Interpretasi Hasil</h5>
+
+          <p class="mb-2">
+            Kelas dengan frekuensi tertinggi berada pada rentang
+            <strong>
+              <span x-text="interpretation.maxClass.lower"></span>
+              –
+              <span x-text="interpretation.maxClass.upper"></span>
+            </strong>
+            dengan jumlah data sebanyak
+            <strong x-text="interpretation.maxClass.freq"></strong>.
+          </p>
+
+          <p class="mb-0 text-muted">
+            Hal ini menunjukkan bahwa sebagian besar data terkonsentrasi
+            pada rentang tersebut.
+          </p>
         </div>
       </div>
 
