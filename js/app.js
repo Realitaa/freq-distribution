@@ -66,15 +66,7 @@ function spa() {
         },
 
         parseInput() {
-          if (!this.rawInput) {
-            this.parsedData = [];
-            return;
-          }
-
-          this.parsedData = this.rawInput
-            .split(/[\s,]+/)
-            .map(v => Number(v))
-            .filter(v => !isNaN(v));
+          this.parsedData = parseNumericInput(this.rawInput);
         },
     }
 }
