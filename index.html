@@ -68,10 +68,7 @@
       <div class="mb-4">
         <button
           class="btn btn-sm btn-outline-secondary mb-3"
-          @click="
-            goTo('');
-            resetPlayground();
-          "
+          @click="goTo('');"
         >
           <i class="bi bi-arrow-left"></i>
           Kembali
@@ -378,6 +375,149 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section
+    x-cloak
+    x-show="currentRoute === 'about'"
+    class="landing-wrapper min-vh-100 py-5"
+  >
+    <div class="container">
+
+      <!-- Tombol kembali -->
+      <div class="mb-4">
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          @click="goTo('');"
+        >
+          <i class="bi bi-arrow-left"></i>
+          Kembali
+        </button>
+      </div>
+
+      <!-- Judul -->
+      <header class="mb-5">
+        <h1 class="fw-bold">
+          Tentang Proyek Implementasi Distribusi Frekuensi Data
+        </h1>
+        <p class="text-muted mt-2 col-lg-9">
+          Proyek ini merupakan tugas mata kuliah <strong>Algoritma dan Pemrograman</strong>
+          yang bertujuan untuk mengimplementasikan konsep distribusi frekuensi
+          secara sistematis melalui pemrograman berbasis web.
+        </p>
+      </header>
+
+      <!-- Grid utama -->
+      <div class="row g-4 align-items-stretch mb-4">
+
+        <!-- Kiri: Deskripsi -->
+        <div class="col-12 col-lg-5">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
+              <h5 class="fw-semibold mb-3">Deskripsi Proyek</h5>
+
+              <p class="text-muted small">
+                Website ini dirancang untuk membantu memahami proses pembentukan
+                tabel distribusi frekuensi dari data numerik, mulai dari validasi data,
+                penentuan jumlah kelas, interval kelas, hingga interpretasi hasil.
+              </p>
+
+              <ul class="small text-muted mb-0">
+                <li>Input data numerik manual atau CSV</li>
+                <li>Validasi jumlah dan tipe data</li>
+                <li>Perhitungan algoritmik distribusi frekuensi</li>
+                <li>Visualisasi tabel hasil</li>
+              </ul>
+
+              <!-- spacer agar konten rapi -->
+              <div class="mt-auto"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kanan: Video -->
+        <div class="col-12 col-lg-7">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="fw-semibold mb-3">Video Penjelasan Proyek</h5>
+
+              <div class="ratio ratio-16x9 rounded overflow-hidden">
+                <iframe
+                  src="https://www.youtube.com/embed/VIDEO_ID"
+                  title="Video Presentasi Proyek"
+                  allowfullscreen
+                ></iframe>
+              </div>
+
+              <p class="small text-muted mt-2 mb-0">
+                Video ini menjelaskan konsep distribusi frekuensi,
+                alur algoritma, dan demonstrasi aplikasi.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Teknologi -->
+      <div class="mb-5">
+        <h4 class="fw-semibold mb-3">Teknologi yang Digunakan</h4>
+
+        <div class="d-flex flex-wrap gap-2">
+          <span class="badge bg-secondary">HTML5</span>
+          <span class="badge bg-secondary">CSS3</span>
+          <span class="badge bg-secondary">Bootstrap 5</span>
+          <span class="badge bg-secondary">Vanilla JavaScript</span>
+          <span class="badge bg-secondary">Alpine.js</span>
+        </div>
+
+        <p class="small text-muted mt-2">
+          Seluruh perhitungan dilakukan menggunakan JavaScript murni
+          tanpa library statistik eksternal.
+        </p>
+      </div>
+
+      <!-- Tim -->
+      <div>
+        <h4 class="fw-semibold mb-3">Tim Pengembang</h4>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Nama</th>
+                <th>NIM</th>
+                <th>Peran</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Reza Mulia Putra</td>
+                <td>4251250010</td>
+                <td>Web Developer</td>
+              </tr>
+              <tr>
+                <td>Riska Ayu Febriana</td>
+                <td>4252250002</td>
+                <td>Video Editor</td>
+              </tr>
+              <tr>
+                <td>Umar Hidayat</td>
+                <td>4252550001</td>
+                <td>Data Mining</td>
+              </tr>
+              <tr>
+                <td>Farel Luther Siagian</td>
+                <td>4253250041</td>
+                <td>Pemateri</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </section>
 

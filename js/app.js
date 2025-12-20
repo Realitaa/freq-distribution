@@ -62,6 +62,8 @@ function spa() {
             const path = route ? '#' + route : '#';
             if (window.location.hash !== path) {
                 window.location.hash = path;
+                // Reset playground saat pindah route
+                this.resetPlayground();
             } else {
                 // Jika hash sama, trigger manual update
                 this.updateRoute();
