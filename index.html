@@ -67,9 +67,14 @@
       <div class="mb-4">
         <button
           class="btn btn-sm btn-outline-secondary mb-3"
-          @click="goTo('')"
+          @click="
+            goTo('');
+            subject = '';
+            rawInput = '';
+          "
         >
-          ← Kembali
+          <i class="bi bi-arrow-left"></i>
+          Kembali
         </button>
 
         <h2 class="fw-bold">Playground Distribusi Frekuensi</h2>
@@ -106,6 +111,7 @@
               type="text" 
               class="form-control" 
               placeholder="Contoh: Nilai Ujian Matematika kelas PSIK25B"
+              x-model="subject"
             >
           </div>
 
@@ -118,6 +124,7 @@
               class="form-control"
               rows="5"
               placeholder="Contoh: 45, 60, 72, 88, 90, 55, ..."
+              x-model="rawInput"
             ></textarea>
             <div class="form-text">
               Pisahkan angka dengan koma atau baris baru. Minimal 30 data.
@@ -156,27 +163,49 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            Kamu dapat menggunakan dataset contoh berikut ini dengan cara klik tombol "Gunakan":
+            <p class="mb-4">
+              Kamu dapat menggunakan dataset contoh berikut ini dengan cara klik tombol "Gunakan":
+            </p>
 
-            <div class="accordion" id="accordionExample">
-              <div class="accordion-item">
-                <h2 class="accordion-header">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Suhu Siang Hari di Kota X (dalam °C) dalam 1 Bulan
-                  </button>
-                </h2>
+            <!-- Accordion untuk Dataset Contoh -->
+            <div class="accordion" id="datasetAccordion">
+              <template x-for="dataset in sampleDatasets" :key="dataset.id">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      :data-bs-target="`#collapse-${dataset.id}`"
+                    >
+                      <span x-text="dataset.title"></span>
+                    </button>
+                  </h2>
 
-                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                  <div class="accordion-body">
-                    Kota X mencatat suhu siang hari selama satu bulan penuh. Berikut adalah data suhu yang tercatat:
-                    30, 32, 31, 29, 28, 33, 34, 30, 31, 32, 29, 28, 30, 31, 33, 34, 35, 36, 30, 29, 28, 32, 31, 30, 29, 28, 33, 34, 35, 36
-                  </div>
-                  <div class="d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-info btn-sm">Gunakan</button>
+                  <div
+                    class="accordion-collapse collapse"
+                    :id="`collapse-${dataset.id}`"
+                    data-bs-parent="#datasetAccordion"
+                  >
+                    <div class="accordion-body">
+                      <p class="text-muted" x-text="dataset.description"></p>
+
+                      <pre class="bg-light p-2 small">
+<span x-text="dataset.data.join(', ')"></span>
+                      </pre>
+
+                      <div class="d-flex justify-content-end">
+                        <button
+                          class="btn btn-info btn-sm"
+                          @click="useDataset(dataset)"
+                        >
+                          Gunakan
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-              </div>
+              </template>
             </div>
 
           </div>

@@ -1,6 +1,10 @@
 function spa() {
     return {
         currentRoute: '',
+        sampleDatasets: sampleDatasets,
+
+        subject: '',
+        rawInput: '',
 
         init() {
             // Baca hash saat halaman dimuat
@@ -31,6 +35,17 @@ function spa() {
                 // Jika hash sama, trigger manual update
                 this.updateRoute();
             }
+        },
+
+        useDataset(dataset) {
+          this.subject = dataset.subject;
+          this.rawInput = dataset.data.join(', ');
+
+          // Tutup modal Bootstrap
+          const modal = bootstrap.Modal.getInstance(
+            document.getElementById('exampleDatasetModal')
+          );
+          modal.hide();
         }
     }
 }
