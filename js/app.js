@@ -98,7 +98,7 @@ function spa() {
           this.isLoading = true;
 
           // beri waktu agar loading terlihat
-          await this.delay(1000);
+          await Utils.delay(800);
           this.isLoading = false;
 
           // parsing ulang sebagai sumber kebenaran
@@ -106,7 +106,7 @@ function spa() {
 
           const result = validateNumericData(data, this.minData);
           if (!result.valid) {
-            this.showToastMessage(result.message);
+            UI.toast(result.message);
             return;
           }
 
@@ -150,10 +150,7 @@ function spa() {
           this.isProcessing = true;
         },
 
-        // Fungsi delay (untuk simulasi proses asynchronous)
-        delay(ms) {
-          return new Promise(resolve => setTimeout(resolve, ms));
-        },
+
 
         resetPlayground() {
           // input
@@ -184,7 +181,7 @@ function spa() {
           const name = file.name.split('.').shift();
           const ext = file.name.split('.').pop().toLowerCase();
           if (!['txt', 'csv'].includes(ext)) {
-            this.showToastMessage('Format file tidak didukung.');
+            UI.toast('Format file tidak didukung.');
             return;
           }
 
@@ -196,7 +193,7 @@ function spa() {
             const text = reader.result.trim();
             this.uploadedFileText = text;
 
-            if (this.isSimpleNumericFile(text)) {
+            if (Parser.isSimpleNumericFile(text)) {
               this.fillPlayground(text);
             } else {
               this.parseCsvTable(text);
@@ -204,11 +201,6 @@ function spa() {
           };
 
           reader.readAsText(file);
-        },
-
-        isSimpleNumericFile(text) {
-          // hanya angka, koma, spasi, newline
-          return /^[\d\s,.\-]+$/.test(text);
         },
 
         fillPlayground(text) {
@@ -219,16 +211,14 @@ function spa() {
             .getInstance(document.getElementById('importFileModal'))
             .hide();
 
-          this.showToastMessage(`${this.parsedData.length} data berhasil diimpor.`, 'success');
+          UI.toast(`${this.parsedData.length} data berhasil diimpor.`, 'success');
         },
 
         parseCsvTable(text) {
-          const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+          const { headers, rows } = Parser.parseCsv(text);
 
-          this.csvHeaders = lines[0].split(',').map(h => h.trim());
-          this.csvRows = lines.slice(1).map(row =>
-            row.split(',').map(cell => cell.trim())
-          );
+          this.csvHeaders = headers;
+          this.csvRows = rows;
 
           bootstrap.Modal
             .getInstance(document.getElementById('importFileModal'))
@@ -247,7 +237,7 @@ function spa() {
             .filter(v => !isNaN(v));
 
           if (columnData.length < this.minData) {
-            this.showToastMessage('Kolom terpilih tidak memiliki minimal 30 data numerik.');
+            UI.toast('Kolom terpilih tidak memiliki minimal 30 data numerik.');
             return;
           }
 
@@ -263,7 +253,7 @@ function spa() {
             this.goTo('playground');
           }
 
-          this.showToastMessage(`${columnData.length} data berhasil diimpor dari kolom terpilih.`, 'success');
+          UI.toast(`${columnData.length} data berhasil diimpor dari kolom terpilih.`, 'success');
           this.resetFileUpload();
         },
 
@@ -312,26 +302,11 @@ function spa() {
             this.rawInput.trim() !== '';
         },
 
-        showToastMessage(message, status = 'error') {
-          const bgColor = status === 'error' ? '--bs-danger' : '--bs-success';
-
-          Toastify({
-            text: message,
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            stopOnFocus: true,
-            style: {
-              background: getCssVar(bgColor),
-            }
-          }).showToast();
-        },
-
         // Debug: trigger toast
         // Jalankan kode ini di console DevTools untuk mengetes fungsi toast:
         // spa().triggerToastTest()
         triggerToastTest() {
-          this.showToastMessage('Contoh pesan toast.');
+          UI.toast('Contoh pesan toast.');
         },
 
     }

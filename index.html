@@ -192,12 +192,18 @@
       <div
         x-show="stats"
         x-transition
-        class="card mt-4 fade-up"
+        class="mt-4"
         :class="{ 'show': stats }"
       >
+      <h3 class="fw-bold">Analisis Data <span x-text="subject"></span></h3>
+      <div class="gap-2">
+        <div class="card">
+          <div class="card-body">
+            This is some text within a card body.
+          </div>
+        </div>
+      </div>
         <div class="card-body">
-          <h5 class="fw-semibold mb-3">Analisis Data Awal</h5>
-
           <ul class="mb-0">
             <li>Jumlah data (n): <strong x-text="stats.n"></strong></li>
             <li>Nilai minimum: <strong x-text="stats.min"></strong></li>
@@ -454,8 +460,10 @@
   <script src="data/sample-dataset.js"></script>
   <script src="js/utils/constants.js"></script>
   <script src="js/utils/getCssVar.js"></script>
+  <script src="js/utils/helpers.js"></script>
   <script src="js/input/parser.js"></script>
   <script src="js/input/validator.js"></script>
+  <script src="js/ui/notification.js"></script>
   <script src="js/algorithm/statistics.js"></script>
   <script src="js/algorithm/frequency.js"></script>
   <script src="js/app.js"></script>
