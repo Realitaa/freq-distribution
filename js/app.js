@@ -7,7 +7,7 @@ function spa() {
         sampleDatasets: sampleDatasets,
         subject: '',
         rawInput: '',
-        minData: 30,
+        minData: MIN_DATA_COUNT,
         parsedData: [],
 
         // Inisialisasi aplikasi SPA
