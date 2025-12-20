@@ -97,7 +97,7 @@ function spa() {
 
           const result = validateNumericData(data, this.minData);
           if (!result.valid) {
-            this.showError(result.message);
+            this.showToastMessage(result.message);
             return;
           }
 
@@ -169,7 +169,7 @@ function spa() {
           const name = file.name.split('.').shift();
           const ext = file.name.split('.').pop().toLowerCase();
           if (!['txt', 'csv'].includes(ext)) {
-            this.showError('Format file tidak didukung.');
+            this.showToastMessage('Format file tidak didukung.');
             return;
           }
 
@@ -204,13 +204,7 @@ function spa() {
             .getInstance(document.getElementById('importFileModal'))
             .hide();
 
-          Toastify({
-            text: `${this.parsedData.length} data berhasil diimpor.`,
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            style: { background: getCssVar('--bs-success') }
-          }).showToast();
+          this.showToastMessage(`${this.parsedData.length} data berhasil diimpor.`, 'success');
         },
 
         parseCsvTable(text) {
@@ -238,7 +232,7 @@ function spa() {
             .filter(v => !isNaN(v));
 
           if (columnData.length < this.minData) {
-            this.showError('Kolom terpilih tidak memiliki minimal 30 data numerik.');
+            this.showToastMessage('Kolom terpilih tidak memiliki minimal 30 data numerik.');
             return;
           }
 
@@ -254,14 +248,7 @@ function spa() {
             this.goTo('playground');
           }
 
-          Toastify({
-            text: `${columnData.length} data berhasil diimpor dari kolom terpilih.`,
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            style: { background: getCssVar('--bs-success') }
-          }).showToast();
-
+          this.showToastMessage(`${columnData.length} data berhasil diimpor dari kolom terpilih.`, 'success');
           this.resetFileUpload();
         },
 
@@ -304,7 +291,9 @@ function spa() {
           }
         },
 
-        showError(message) {
+        showToastMessage(message, status = 'error') {
+          const bgColor = status === 'error' ? '--bs-danger' : '--bs-success';
+
           Toastify({
             text: message,
             duration: 3000,
@@ -312,16 +301,16 @@ function spa() {
             position: "right",
             stopOnFocus: true,
             style: {
-              background: getCssVar('--bs-danger'),
+              background: getCssVar(bgColor),
             }
           }).showToast();
         },
 
-        // Debug: trigger error toast
+        // Debug: trigger toast
         // Jalankan kode ini di console DevTools untuk mengetes fungsi toast:
-        // spa().triggerErrorTest()
-        triggerErrorTest() {
-          this.showError('Contoh pesan error validasi.');
+        // spa().triggerToastTest()
+        triggerToastTest() {
+          this.showToastMessage('Contoh pesan toast.');
         },
 
     }
