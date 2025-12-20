@@ -35,3 +35,13 @@ function max(data) {
 function range(data) {
   return max(data) - min(data);
 }
+
+/**
+ * Menentukan jumlah kelas menggunakan aturan Sturges
+ * k = 1 + 3.322 * log10(n)
+ * @param {number} n
+ * @returns {number}
+ */
+function sturges(n) {
+  return Math.ceil(1 + 3.322 * Math.log10(n));
+}

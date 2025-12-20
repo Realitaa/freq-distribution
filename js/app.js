@@ -96,6 +96,12 @@ function spa() {
             max: maxVal,
             range: rangeVal
           };
+
+          // Hitung jumlah kelas dengan aturan Sturges
+          const k = sturges(n);
+
+          // Simpan ke state
+          this.stats.k = k;
         },
 
         showError(message) {
