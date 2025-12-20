@@ -12,3 +12,7 @@
 .landing-wrapper p {
   color: #111827;
 }
+
+[x-cloak] {
+  display: none !important;
+}
