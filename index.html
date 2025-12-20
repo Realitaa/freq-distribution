@@ -119,12 +119,18 @@
           <div class="mb-3">
             <label class="form-label fw-semibold">
               Data Numerik
+              <span
+                :class="isDataValid ? 'text-success' : 'text-danger'"
+              >
+                (<span x-text="dataCount"></span>/<span x-text="minData"></span>)
+              </span>
             </label>
             <textarea
               class="form-control"
               rows="5"
               placeholder="Contoh: 45, 60, 72, 88, 90, 55, ..."
               x-model="rawInput"
+              @input="parseInput()"
             ></textarea>
             <div class="form-text">
               Pisahkan angka dengan koma atau baris baru. Minimal 30 data.
@@ -143,7 +149,7 @@
 
             <button
               class="btn btn-primary"
-              disabled
+              :disabled="!isDataValid"
             >
               Mulai Menghitung
             </button>

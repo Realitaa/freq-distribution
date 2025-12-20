@@ -1,11 +1,16 @@
 function spa() {
     return {
+        // State route saat ini
         currentRoute: '',
-        sampleDatasets: sampleDatasets,
 
+        // Dataset contoh
+        sampleDatasets: sampleDatasets,
         subject: '',
         rawInput: '',
+        minData: 30,
+        parsedData: [],
 
+        // Inisialisasi aplikasi SPA
         init() {
             // Baca hash saat halaman dimuat
             this.updateRoute();
@@ -16,6 +21,7 @@ function spa() {
             });
         },
 
+        // Perbarui route berdasarkan hash di URL
         updateRoute() {
             // Ambil hash tanpa tanda '#', lalu bersihkan slash jika ada
             let hash = window.location.hash.slice(1).toLowerCase();
@@ -26,6 +32,7 @@ function spa() {
             this.currentRoute = hash || ''; // default ke home jika kosong
         },
 
+        // Navigasi ke route tertentu dengan mengubah hash
         goTo(route) {
             // route bisa '' (home), 'playground', 'import', dll.
             const path = route ? '#' + route : '#';
@@ -37,15 +44,37 @@ function spa() {
             }
         },
 
+        // Gunakan dataset contoh yang dipilih dari accordion
         useDataset(dataset) {
           this.subject = dataset.subject;
           this.rawInput = dataset.data.join(', ');
+          this.parseInput();
 
           // Tutup modal Bootstrap
           const modal = bootstrap.Modal.getInstance(
             document.getElementById('exampleDatasetModal')
           );
           modal.hide();
-        }
+        },
+
+        get dataCount() {
+          return this.parsedData.length;
+        },
+
+        get isDataValid() {
+          return this.dataCount >= this.minData;
+        },
+
+        parseInput() {
+          if (!this.rawInput) {
+            this.parsedData = [];
+            return;
+          }
+
+          this.parsedData = this.rawInput
+            .split(/[\s,]+/)
+            .map(v => Number(v))
+            .filter(v => !isNaN(v));
+        },
     }
 }
