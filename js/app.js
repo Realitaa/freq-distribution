@@ -20,6 +20,7 @@ function spa() {
         // Playground section state
         subject: '',
         rawInput: '',
+        hasUserInput: false,
         minData: MIN_DATA_COUNT,
         parsedData: [],
         errorMessage: '',
@@ -88,6 +89,7 @@ function spa() {
         },
 
         parseInput() {
+          this.updateInputState();
           this.parsedData = parseNumericInput(this.rawInput);
         },
 
@@ -146,6 +148,7 @@ function spa() {
           this.subject = '';
           this.rawInput = '';
           this.parsedData = [];
+          this.hasUserInput = false;
 
           // hasil proses
           this.stats = null;
@@ -289,6 +292,12 @@ function spa() {
           if (fileInput) {
             fileInput.value = '';
           }
+        },
+
+        updateInputState() {
+          this.hasUserInput =
+            this.subject.trim() !== '' ||
+            this.rawInput.trim() !== '';
         },
 
         showToastMessage(message, status = 'error') {

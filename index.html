@@ -98,6 +98,7 @@
               class="form-control" 
               placeholder="Contoh: Nilai Ujian Matematika kelas PSIK25B"
               x-model="subject"
+              @input="updateInputState()"
             >
           </div>
 
@@ -160,6 +161,21 @@
                   </button>
                 </div>
               </div>
+            </div>
+
+            <div
+              class="import-alternative mt-4"
+              :class="{ hidden: hasUserInput }"
+            >
+              <p class="text-muted text-center mb-2">Atau</p>
+
+              <button
+                class="btn btn-primary w-auto mx-auto d-block"
+                data-bs-toggle="modal"
+                data-bs-target="#importFileModal"
+              >
+                Import File
+              </button>
             </div>
 
           </div>

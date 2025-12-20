@@ -16,3 +16,15 @@
 [x-cloak] {
   display: none !important;
 }
+
+.import-alternative {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.25s ease;
+}
+
+.import-alternative.hidden {
+  transform: translateY(-8px);
+  max-height: 0;
+  overflow: hidden;
+}
