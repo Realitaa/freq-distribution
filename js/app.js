@@ -98,7 +98,7 @@ function spa() {
           this.isLoading = true;
 
           // beri waktu agar loading terlihat
-          await Utils.delay(800);
+          await Utils.delay(500);
           this.isLoading = false;
 
           // parsing ulang sebagai sumber kebenaran

@@ -196,29 +196,79 @@
         :class="{ 'show': stats }"
       >
       <h3 class="fw-bold">Analisis Data <span x-text="subject"></span></h3>
-      <div class="gap-2">
-        <div class="card">
-          <div class="card-body">
-            This is some text within a card body.
+
+      <div class="row g-3 mt-3">
+
+        <div class="col-12 col-md-6">
+          <div class="card h-100">
+            <div class="card-body py-3">
+              <small class="text-muted">Jumlah Data</small>
+              <div class="fw-bold fs-3">n = <span x-text="stats.n"></span></div>
+              <div class="text-muted small">
+                Banyaknya data yang dianalisis setelah validasi input.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="card h-100">
+            <div class="card-body py-3">
+              <small class="text-muted">Nilai Minimum dan Maksimum</small>
+              <div class="fw-bold fs-3">Min: <span x-text="stats.min"></span> Max: <span x-text="stats.max"></span></div>
+              <div class="text-muted small">
+                Digunakan sebagai dasar penentuan rentang data.
+              </div>
+            </div>
           </div>
         </div>
       </div>
-        <div class="card-body">
-          <ul class="mb-0">
-            <li>Jumlah data (n): <strong x-text="stats.n"></strong></li>
-            <li>Nilai minimum: <strong x-text="stats.min"></strong></li>
-            <li>Nilai maksimum: <strong x-text="stats.max"></strong></li>
-            <li>Range data: <strong x-text="stats.range"></strong></li>
-            <li>Jumlah kelas (Sturges): <strong x-text="stats.k"></strong></li>
-            <li>Lebar interval kelas: <strong x-text="stats.interval"></strong></li>
-          </ul>
+
+      <div class="row g-3 mt-3">
+
+        <div class="col-12 col-md-6">
+          <div class="card h-100">
+            <div class="card-body py-3">
+              <small class="text-muted">Range Data</small>
+              <div class="fw-bold fs-3">Range: <span x-text="stats.range"></span></div>
+              <div class="text-muted small">
+                Range diperoleh dari selisih nilai maksimum dan minimum.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="card h-100">
+            <div class="card-body py-3">
+              <small class="text-muted">Jumlah Kelas</small>
+              <div class="fw-bold fs-3">k = <span x-text="stats.k"></span></div>
+              <div class="text-muted small">
+                Jumlah kelas ditentukan menggunakan aturan Sturges.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-3">
+        <div class="col-12">
+          <div class="card h-100">
+            <div class="card-body py-3">
+              <small class="text-muted">Lebar Interval Kelas</small>
+              <div class="fw-bold fs-3"><span x-text="stats.interval"></span></div>
+              <div class="text-muted small">
+                Lebar interval digunakan untuk membentuk kelas distribusi frekuensi.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Tabel Distribusi Frekuensi (sementara, verifikasi) -->
       <div x-show="frequencyTable" class="card mt-4">
         <div class="card-body">
-          <h5 class="fw-semibold mb-3">Tabel Distribusi Frekuensi</h5>
+          <h5 class="fw-semibold mb-3">Tabel Distribusi Frekuensi <span x-text="subject"></span></h5>
 
           <table class="table table-sm table-bordered">
             <thead>
