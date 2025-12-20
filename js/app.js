@@ -12,6 +12,7 @@ function spa() {
         minData: MIN_DATA_COUNT,
         parsedData: [],
         errorMessage: '',
+        stats: null,
 
         // Inisialisasi aplikasi SPA
         init() {
@@ -82,12 +83,19 @@ function spa() {
             return;
           }
 
-          // valid → lanjut ke tahap berikutnya (statistik/algoritma)
-          this.errorMessage = '';
-          this.parsedData = data;
+          // Memanggil fungsi statistik dasar
+          const n = count(data);
+          const minVal = min(data);
+          const maxVal = max(data);
+          const rangeVal = range(data);
 
-          // placeholder: nanti trigger analisis/statistik
-          // this.goTo('process') atau tampilkan section proses
+          // Simpan ke state
+          this.stats = {
+            n,
+            min: minVal,
+            max: maxVal,
+            range: rangeVal
+          };
         },
 
         showError(message) {
