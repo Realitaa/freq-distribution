@@ -37,7 +37,7 @@
             <button @click="goTo('playground')" class="btn btn-primary">
               Playground
             </button>
-            <button @click="goTo('import')" class="btn btn-outline-primary">
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#importFileModal">
               Import Data
             </button>
             <a 
@@ -124,32 +124,44 @@
           </div>
 
           <!-- Action Bar -->
-          <div class="d-flex justify-content-between align-items-center mt-4">
-            <button
-              class="btn btn-outline-success"
-              data-bs-toggle="modal" 
-              data-bs-target="#exampleDatasetModal"
-            >
-              Gunakan Dataset Contoh
-            </button>
-
-            <div>
+          <div class="row g-3 mt-4 align-items-md-center">
+            
+            <!-- Kiri -->
+            <div class="col-12 col-md-auto">
               <button
-                class="btn btn-primary"
-                :disabled="!isDataValid"
-                @click="startProcess()"
+                class="btn btn-outline-success w-100"
+                data-bs-toggle="modal" 
+                data-bs-target="#exampleDatasetModal"
               >
-                Mulai Menghitung
+                Gunakan Dataset Contoh
               </button>
-
-              <button
-                  class="btn btn-outline-danger"
-                  x-show="isProcessing"
-                  @click="resetPlayground()"
-                >
-                  Reset Playground
-                </button>
             </div>
+
+            <!-- Kanan -->
+            <div class="col-12 col-md-auto ms-md-auto">
+              <div class="row g-2">
+                <div class="col-12 col-md-auto">
+                  <button
+                    class="btn btn-primary w-100"
+                    :disabled="!isDataValid"
+                    @click="startProcess()"
+                  >
+                    Mulai Menghitung
+                  </button>
+                </div>
+
+                <div class="col-12 col-md-auto">
+                  <button
+                    class="btn btn-outline-danger w-100"
+                    x-show="isProcessing"
+                    @click="resetPlayground()"
+                  >
+                    Reset Playground
+                  </button>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>
@@ -231,8 +243,8 @@
     </div>
 
     <!-- Example Dataset Modal -->
-    <div class="modal fade modal-xl modal-dialog-scrollable" id="exampleDatasetModal" tabindex="-1" aria-labelledby="exampleDatasetModal" aria-hidden="true">
-      <div class="modal-dialog">
+    <div class="modal fade modal-xl" id="exampleDatasetModal" tabindex="-1" aria-labelledby="exampleDatasetModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleDatasetModal">Dataset Contoh</h1>
@@ -289,6 +301,130 @@
       </div>
     </div>
   </section>
+
+  <!-- Import File Modal -->
+  <div class="modal fade modal-lg" id="importFileModal" tabindex="-1" aria-labelledby="importFileModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="importFileModal">Upload File</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex justify-content-center align-items-center flex-column text-center">
+          <i class="bi bi-upload" style="font-size: 3rem"></i>
+          <strong>Upload File Data</strong>
+          <p class="text-muted">Mendukung file .txt dan .csv yang berisi data numerik minimal 30 data.</p>
+          <input
+            type="file"
+            id="fileInput"
+            accept=".txt,.csv"
+            hidden
+          >
+          <button class="btn btn-primary" @click="triggerFileInput()">Klik untuk Upload</button>
+          <div class="gap-4 text-start mt-4 w-100">
+            <span>Contoh Konten File .txt</span>
+            <pre class="bg-light p-2 small text-wrap">30, 32, 31, 29, 28, 33, 34, 30, 31, 32, 29, 28, 30, 31, 33, 34, 35, 36, 30, 29, 28, 32, 31, 30, 29, 28, 33, 34, 35, 36</pre>
+            <span>Contoh Konten File .csv</span>
+            <pre class="bg-light p-2 small text-wrap">45, 60, 72, 88, 90, 55, 67, 70, 81, 76, 69, 73, 85, 78, 80, 66, 74, 77, 82, 79, 68, 71, 75, 83, 84, 65, 62, 58, 91, 87</pre>
+            <span>Contoh Konten File Tabel .csv</span>
+            <pre class="bg-light p-2 small text-wrap">
+              ID,Nama,Umur,Gender,Nilai,Matkul,Tanggal,UTS,UAS <br>
+              1,Budi,24,Laki-laki,85,Kimia,9/8/2023,90,80 <br>
+              2,Ani,21,Perempuan,77.5,Matematika,15/8/2023,75,80 <br>
+              3,Joko,20,Laki-laki,90,Biologi,15/8/2023,85,95 <br>
+              4,Siti,21,Perempuan,60,Matematika,9/8/2023,55,65 <br>
+              5,Agus,23,Laki-laki,77.5,Fisika,9/8/2023,80,75 
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Choose Column Modal -->
+  <div class="modal fade modal-xl" id="chooseColumnModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="chooseColumnModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="chooseColumnModal">Pilih Kolom</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="resetFileUpload()"></button>
+        </div>
+        <div class="modal-body">
+          <p>Pilih satu kolom yang akan digunakan untuk distribusi frekuensi dengan cara klik checkbox di atas kolom yang dipilih.</p>
+          <table class="table table-bordered">
+            <thead class="table-secondary">
+            <tr>
+              <th class="text-center align-middle">#</th>
+
+              <template x-for="(header, i) in csvHeaders" :key="i">
+                <th class="text-center align-middle">
+                  <!-- Checkbox -->
+                  <div class="form-check d-flex justify-content-center mb-1">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      :checked="selectedColumnIndex === i"
+                      @change="
+                        selectedColumnIndex = ($event.target.checked ? i : null);
+                        evaluateSelectedColumn();
+                      "
+                    >
+                  </div>
+
+                  <!-- Header text -->
+                  <div class="fw-semibold small text-truncate">
+                    <span x-text="header"></span>
+                  </div>
+                </th>
+              </template>
+            </tr>
+          </thead>
+
+            <tbody>
+              <template x-for="(row, r) in csvRows" :key="r">
+                <tr>
+                  <td x-text="r + 1"></td>
+                  <template x-for="cell in row">
+                    <td x-text="cell"></td>
+                  </template>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <div class="d-flex flex-column">
+            <span>
+              <i
+                class="bi"
+                :class="columnValidation.isEnough ? 'bi-check text-success' : 'bi-x text-danger'"
+              ></i>
+              Minimal 30 baris data pada kolom terpilih
+              <small class="text-muted">
+                (<span x-text="columnValidation.count"></span>)
+              </small>
+            </span>
+
+            <span>
+              <i
+                class="bi"
+                :class="columnValidation.isNumeric ? 'bi-check text-success' : 'bi-x text-danger'"
+              ></i>
+              Kolom berisi data numerik
+            </span>
+          </div>
+          <button 
+            type="button" 
+            class="btn btn-success" 
+            :disabled="!(columnValidation.isNumeric && columnValidation.isEnough)"
+            @click="confirmColumnSelection();"
+          >
+            Konfirmasi & Lanjutkan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

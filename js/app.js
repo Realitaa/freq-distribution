@@ -6,6 +6,17 @@ function spa() {
         // Dataset contoh
         sampleDatasets: sampleDatasets,
 
+        // Import file state
+        uploadedFileText: '',
+        csvHeaders: [],
+        csvRows: [],
+        selectedColumnIndex: null,
+        columnValidation: {
+          isNumeric: false,
+          isEnough: false,
+          count: 0
+        },
+
         // Playground section state
         subject: '',
         rawInput: '',
@@ -25,6 +36,10 @@ function spa() {
             // Dengarkan perubahan hash (termasuk tombol back/forward)
             window.addEventListener('hashchange', () => {
                 this.updateRoute();
+            });
+
+            document.getElementById('fileInput').addEventListener('change', (e) => {
+              this.handleFileUpload(e.target.files[0]);
             });
         },
 
@@ -142,6 +157,151 @@ function spa() {
 
           // opsional: kembali ke atas halaman
           window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+
+        triggerFileInput() {
+          document.getElementById('fileInput').click();
+        },
+
+        handleFileUpload(file) {
+          if (!file) return;
+
+          const name = file.name.split('.').shift();
+          const ext = file.name.split('.').pop().toLowerCase();
+          if (!['txt', 'csv'].includes(ext)) {
+            this.showError('Format file tidak didukung.');
+            return;
+          }
+
+          // Gunakan nama file (tanpa ekstensi) sebagai subject
+          this.subject = `Distribusi Frekuensi ${name}`;
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            const text = reader.result.trim();
+            this.uploadedFileText = text;
+
+            if (this.isSimpleNumericFile(text)) {
+              this.fillPlayground(text);
+            } else {
+              this.parseCsvTable(text);
+            }
+          };
+
+          reader.readAsText(file);
+        },
+
+        isSimpleNumericFile(text) {
+          // hanya angka, koma, spasi, newline
+          return /^[\d\s,.\-]+$/.test(text);
+        },
+
+        fillPlayground(text) {
+          this.rawInput = text;
+          this.parseInput();
+
+          bootstrap.Modal
+            .getInstance(document.getElementById('importFileModal'))
+            .hide();
+
+          Toastify({
+            text: `${this.parsedData.length} data berhasil diimpor.`,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            style: { background: getCssVar('--bs-success') }
+          }).showToast();
+        },
+
+        parseCsvTable(text) {
+          const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+
+          this.csvHeaders = lines[0].split(',').map(h => h.trim());
+          this.csvRows = lines.slice(1).map(row =>
+            row.split(',').map(cell => cell.trim())
+          );
+
+          bootstrap.Modal
+            .getInstance(document.getElementById('importFileModal'))
+            .hide();
+
+          new bootstrap.Modal(
+            document.getElementById('chooseColumnModal')
+          ).show();
+        },
+
+        confirmColumnSelection() {
+          const colIndex = this.selectedColumnIndex;
+
+          const columnData = this.csvRows
+            .map(row => Number(row[colIndex]))
+            .filter(v => !isNaN(v));
+
+          if (columnData.length < this.minData) {
+            this.showError('Kolom terpilih tidak memiliki minimal 30 data numerik.');
+            return;
+          }
+
+          this.rawInput = columnData.join(', ');
+          this.parseInput();
+          this.subject += ` pada kolom ${this.csvHeaders[colIndex]}`;
+
+          bootstrap.Modal
+            .getInstance(document.getElementById('chooseColumnModal'))
+            .hide();
+
+          if (this.currentRoute !== 'playground') {
+            this.goTo('playground');
+          }
+
+          Toastify({
+            text: `${columnData.length} data berhasil diimpor dari kolom terpilih.`,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            style: { background: getCssVar('--bs-success') }
+          }).showToast();
+
+          this.resetFileUpload();
+        },
+
+        evaluateSelectedColumn() {
+          if (this.selectedColumnIndex === null) {
+            this.columnValidation = {
+              isNumeric: false,
+              isEnough: false,
+              count: 0
+            };
+            return;
+          }
+
+          const values = this.csvRows.map(row => row[this.selectedColumnIndex]);
+
+          const numericValues = values
+            .map(v => Number(v))
+            .filter(v => !isNaN(v));
+
+          this.columnValidation = {
+            isNumeric: numericValues.length === values.length,
+            isEnough: numericValues.length >= this.minData,
+            count: numericValues.length
+          };
+        },
+
+        resetFileUpload() {
+          this.uploadedFileText = '';
+          this.csvHeaders = [];
+          this.csvRows = [];
+          this.selectedColumnIndex = null;
+          this.columnValidation = {
+            isNumeric: false,
+            isEnough: false,
+            count: 0
+          };
+          const fileInput = document.getElementById('fileInput');
+          if (fileInput) {
+            fileInput.value = '';
+          }
         },
 
         showError(message) {
