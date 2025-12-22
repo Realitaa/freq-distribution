@@ -72,6 +72,7 @@ function spa() {
 
         // Gunakan dataset contoh yang dipilih dari accordion
         useDataset(dataset) {
+          this.resetPlayground();
           this.subject = dataset.subject;
           this.rawInput = dataset.data.join(', ');
           this.parseInput();
