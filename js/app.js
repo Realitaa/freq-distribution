@@ -57,13 +57,13 @@ function spa() {
         },
 
         // Navigasi ke route tertentu dengan mengubah hash
-        goTo(route) {
+        goTo(route, reset = true) {
             // route bisa '' (home), 'playground', 'import', dll.
             const path = route ? '#' + route : '#';
             if (window.location.hash !== path) {
                 window.location.hash = path;
                 // Reset playground saat pindah route
-                this.resetPlayground();
+                if (reset) this.resetPlayground();
             } else {
                 // Jika hash sama, trigger manual update
                 this.updateRoute();
@@ -252,7 +252,7 @@ function spa() {
             .hide();
 
           if (this.currentRoute !== 'playground') {
-            this.goTo('playground');
+            this.goTo('playground', false);
           }
 
           UI.toast(`${columnData.length} data berhasil diimpor dari kolom terpilih.`, 'success');
