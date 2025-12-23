@@ -53,6 +53,9 @@ function spa() {
             if (hash.startsWith('/')) {
                 hash = hash.slice(1);
             }
+
+            // reset embedded iframes ke keadaan awal
+            this.resetIframes();
             this.currentRoute = hash || ''; // default ke home jika kosong
         },
 
@@ -68,6 +71,17 @@ function spa() {
                 // Jika hash sama, trigger manual update
                 this.updateRoute();
             }
+        },
+        
+        // Reset semua iframe yang memiliki data-src: hentikan & kembalikan ke sumber awal
+        resetIframes() {
+          const iframes = document.querySelectorAll('iframe[data-src]');
+          iframes.forEach(iframe => {
+            const original = iframe.dataset.src;
+            // kosongkan lalu kembalikan untuk mereset pemutaran
+            iframe.src = '';
+            setTimeout(() => { iframe.src = original; }, 50);
+          });
         },
 
         // Gunakan dataset contoh yang dipilih dari accordion
